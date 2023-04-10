@@ -48,10 +48,10 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.Hash), function () {
     	
     }
     if (cmd == "stop") {
-    	
+        ALL_STOP()
     }
     if (cmd == "") {
-        ALL_STOP()
+    	
     }
 })
 // PIN14 = Controller on(1) Off (0)
