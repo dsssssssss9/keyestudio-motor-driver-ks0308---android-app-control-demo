@@ -1,5 +1,10 @@
 function REV_ALL () {
-	
+    pins.analogWritePin(AnalogPin.P1, 150)
+    pins.analogWritePin(AnalogPin.P2, 150)
+    pins.digitalWritePin(DigitalPin.P12, 1)
+    pins.digitalWritePin(DigitalPin.P13, 0)
+    pins.digitalWritePin(DigitalPin.P15, 1)
+    pins.digitalWritePin(DigitalPin.P16, 0)
 }
 function REV_Left () {
     pins.analogWritePin(AnalogPin.P1, 150)
@@ -18,14 +23,27 @@ input.onButtonPressed(Button.A, function () {
     basic.pause(500)
     ALL_STOP()
 })
+function SPIN_Right () {
+    FWD_Left()
+    REV_Right()
+}
 function ALL_STOP () {
     pins.analogWritePin(AnalogPin.P1, 0)
     pins.analogWritePin(AnalogPin.P2, 0)
+}
+function REV_Right () {
+    pins.analogWritePin(AnalogPin.P2, 150)
+    pins.digitalWritePin(DigitalPin.P15, 1)
+    pins.digitalWritePin(DigitalPin.P16, 0)
 }
 function FWD_Right () {
     pins.analogWritePin(AnalogPin.P2, 150)
     pins.digitalWritePin(DigitalPin.P16, 1)
     pins.digitalWritePin(DigitalPin.P15, 0)
+}
+function SPIN_Left () {
+    FWD_Right()
+    REV_Left()
 }
 function FWD_Left () {
     pins.analogWritePin(AnalogPin.P1, 150)
@@ -39,19 +57,16 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.Hash), function () {
         Forward_ALL()
     }
     if (cmd == "Reverse") {
-        ALL_STOP()
+        REV_ALL()
     }
     if (cmd == "Right") {
-    	
+        FWD_Left()
     }
     if (cmd == "Left") {
-    	
+        FWD_Right()
     }
     if (cmd == "stop") {
         ALL_STOP()
-    }
-    if (cmd == "") {
-    	
     }
 })
 // PIN14 = Controller on(1) Off (0)
@@ -105,14 +120,9 @@ function Forward_ALL () {
     pins.digitalWritePin(DigitalPin.P13, 1)
     pins.digitalWritePin(DigitalPin.P12, 0)
 }
-function RWD_Right () {
-    pins.analogWritePin(AnalogPin.P2, 150)
-    pins.digitalWritePin(DigitalPin.P15, 1)
-    pins.digitalWritePin(DigitalPin.P16, 0)
-}
 let cmd = ""
 cmd = ""
-basic.showIcon(IconNames.Target)
+basic.showIcon(IconNames.Angry)
 basic.pause(100)
 pins.digitalWritePin(DigitalPin.P14, 1)
 ALL_STOP()
